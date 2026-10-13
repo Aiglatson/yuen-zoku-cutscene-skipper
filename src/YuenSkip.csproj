@@ -1,0 +1,85 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    淫縛の館 用 BepInEx 插件 —— 构建配置
+
+    编译前请设置游戏目录 (二选一):
+      1) 命令行:  dotnet build -c Release -p:GameDir="X:\Games\Yuen-Zoku"
+      2) 环境变量: YUEN_GAME_DIR=X:\Games\Yuen-Zoku
+
+    需要 BepInEx 5.x x64 的 core 目录 (含 BepInEx.dll 与 0Harmony.dll):
+      命令行:  -p:BepInExDir="X:\Games\Yuen-Zoku\BepInEx\core"
+  -->
+  <PropertyGroup>
+    <TargetFramework>net35</TargetFramework>
+    <AssemblyName>YuenSkip</AssemblyName>
+    <RootNamespace>YuenSkip</RootNamespace>
+    <LangVersion>7.3</LangVersion>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <DebugType>none</DebugType>
+    <NoWarn>$(NoWarn);CS0618</NoWarn>
+    <!-- 版本号: 改这里即可 (插件自身版本在 SkipPlugin.cs 的 PluginVersion 常量) -->
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Product>Yuen-Zoku Cutscene Skipper</Product>
+    <Description>BepInEx plugin for 淫縛の館 (Yuen-Zoku): cutscene skip, dialogue fast-forward, post-ending unlock.</Description>
+  </PropertyGroup>
+
+  <!-- 生成程序集版本信息 (上面 GenerateAssemblyInfo 默认 true; 此处显式声明避免被覆盖) -->
+  <PropertyGroup>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <GenerateNeutralResourcesLanguageAttribute>false</GenerateNeutralResourcesLanguageAttribute>
+  </PropertyGroup>
+
+  <!-- 游戏目录: 命令行属性 > 环境变量 > 占位默认值 -->
+  <PropertyGroup>
+    <GameDir Condition="'$(GameDir)' == '' AND '$(YUEN_GAME_DIR)' != ''">$(YUEN_GAME_DIR)</GameDir>
+    <GameDir Condition="'$(GameDir)' == ''">CHANGE_ME_Set_GameDir</GameDir>
+    <ManagedDir>$(GameDir)\Yuen-Zoku_Data\Managed</ManagedDir>
+    <BepInExDir Condition="'$(BepInExDir)' == ''">$(GameDir)\BepInEx\core</BepInExDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="SkipPlugin.cs" />
+    <Compile Include="WaitTypeRules.cs" />
+    <Compile Include="EndingState.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net35" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="BepInEx">
+      <HintPath>$(BepInExDir)\BepInEx.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(BepInExDir)\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(ManagedDir)\UnityEngine.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(ManagedDir)\UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>$(ManagedDir)\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>$(ManagedDir)\UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(ManagedDir)\Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>

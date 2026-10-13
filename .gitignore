@@ -1,0 +1,20 @@
+# 构建产物
+bin/
+obj/
+
+# IDE
+.vs/
+.idea/
+*.user
+*.suo
+
+# 本地游戏文件 (仅供构建引用, 不提交)
+BepInEx/
+winhttp.dll
+doorstop_config.ini
+.doorstop_version
+Yuen-Zoku_Data/
+
+# 系统
+Thumbs.db
+desktop.ini
